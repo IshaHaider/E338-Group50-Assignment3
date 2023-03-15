@@ -1,10 +1,13 @@
 import sys
 
-prev_capacity = 0
+def print_capacity_change(lst, prev_size):
+    print(f"List capacity changed to {len(lst)} element(s) (total size: from {prev_size} bytes -> {sys.getsizeof(lst)} bytes)")
+
+lst = []
+prev_size = sys.getsizeof(lst)
+
 for i in range(64):
-    lst = list(range(i))
-    if lst:
-        cur_capacity = sys.getsizeof(lst) - sys.getsizeof(lst[0]) * i
-        if cur_capacity != prev_capacity:
-            print(f"List capacity changed from {prev_capacity} to {cur_capacity} at length {i}")
-            prev_capacity = cur_capacity
+    lst.append(i)
+    if prev_size is None or prev_size != sys.getsizeof(lst):
+        print_capacity_change(lst, prev_size)
+        prev_size = sys.getsizeof(lst)
